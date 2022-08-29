@@ -62,8 +62,7 @@ public class JuegoController implements Initializable {
     /**
      * Initializes the controller class.
      *
-     * @param url
-     * @param rb
+     * 
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -97,7 +96,7 @@ public class JuegoController implements Initializable {
         cont = 0;
         arbol = juego.getArbol();
         getAnimalDirectionMap();
-        labelPregunta.setText("Bienvenido (a), vamos a jugar. ¿Listo?");
+        reloadQuestion();
     }
 
     public int getTreeLength() {
@@ -142,15 +141,14 @@ public class JuegoController implements Initializable {
         }
         
         
-        if (cont != num) {                        
-            reloadQuestion();
+        if (cont != num && juego.getPreguntas().size()-1!= cont) {                        
+            //reloadQuestion();
             pila.push(arbol);
             arbol = arbol.getLeft();
+            labelPregunta.setText(arbol.getRootContent()); 
             cont++;
             camino += "si ";
-        } else {
-            //System.out.println(data.getCantPreguntas());
-            //System.out.println(juego.getPreguntas().size());
+        } else {            
             showResults(arbol, pila);
             sinoContainer.getChildren().clear();
             fillAnswer();
@@ -179,10 +177,11 @@ public class JuegoController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (cont !=num) {
-            reloadQuestion();
+        if (cont !=num && juego.getPreguntas().size() -1 != cont) {
+            //reloadQuestion();
             pila.push(arbol);
             arbol = arbol.getRight();
+            labelPregunta.setText(arbol.getRootContent());
             cont++;
             camino += "no ";
         } else {
